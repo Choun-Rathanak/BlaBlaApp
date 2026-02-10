@@ -44,3 +44,4 @@ class Street {
 
   const Street({required this.name, required this.city});
 }
+
