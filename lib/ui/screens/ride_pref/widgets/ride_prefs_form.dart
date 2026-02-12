@@ -1,5 +1,6 @@
-import 'package:blabla/data/dummy_data.dart';
+// import 'package:blabla/data/dummy_data.dart';
 import '../../../widgets/actions/bla_button.dart';
+import '../../../widgets/inputs/location_picker.dart';
 import '../../../widgets/display/bla_divider.dart';
 import 'package:blabla/ui/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -57,12 +58,12 @@ class _RidePrefFormState extends State<RidePrefForm> {
   void initState() {
     super.initState();
     // TODO
-    if(!isFormValid || departureDate == null || requestedSeats < 1 ){
+    
     departure = widget.initRidePref?.departure; // use initail value from departure if provide or it turn to null
     arrival = widget.initRidePref?.arrival; //use initial value is null beginning
     departureDate =widget.initRidePref?.departureDate ??DateTime.now(); // it can be default value or today date
     requestedSeats = widget.initRidePref?.requestedSeats ?? 1; // it can be 1 from start then value of requestseats
-    }
+    
     
   }
 
@@ -112,7 +113,17 @@ class _RidePrefFormState extends State<RidePrefForm> {
             Expanded(
               child: GestureDetector(
                 // here is GestureDetector draft for the departure location
-                onTap: () async {},
+                onTap: () async {
+                  Location? selectedDeparture = await Navigator.push<Location>  // await locationpicker for location value
+                  (context,  MaterialPageRoute(builder: (context) =>  LocationPicker(location: departure), // route to location picker
+                  )
+                  );
+                  if(selectedDeparture != null){  // Change state to the current value from location Picker
+                    setState(() {
+                      departure = selectedDeparture;
+                    });
+                  }
+                },
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     vertical: BlaSpacings.l,
@@ -140,8 +151,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
                 ),
               ),
             ),
-            
-
+          
             const SizedBox(width: BlaSpacings.m),
             IconButton(
               // here is the switch icon
@@ -157,6 +167,15 @@ class _RidePrefFormState extends State<RidePrefForm> {
         GestureDetector(
           // here is GestureDetector draft for the arrival location
           onTap: () async {
+            Location? selectedArrival = await Navigator.push<Location>  // await locationpicker for location value
+            (context,  MaterialPageRoute(builder: (context) =>  LocationPicker(location: departure), // route to location picker
+            ),
+            );
+            if(selectedArrival != null){  // Change state to the current value from location Picker
+            setState(() {
+            arrival = selectedArrival;
+              });
+            }
             print("Test");
           },
           child: Container(
@@ -237,6 +256,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
           label: "Search",
           onPressed: onSearch,
           isPrimary: true,
+          isExpanded: true,
         ),
       ],
     );
