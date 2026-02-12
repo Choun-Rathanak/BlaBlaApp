@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../ride_pref/widgets/bla_button.dart';
+import '../../widgets/actions/bla_button.dart';
 import '/ui/theme/theme.dart';
 
 class BlaButtonTestScreen extends StatelessWidget {
